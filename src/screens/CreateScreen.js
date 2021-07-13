@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import Toast from "react-native-simple-toast";
 import { Context as BlogContext } from "../contexts/BlogContext";
 import {
 	View,
@@ -8,11 +9,17 @@ import {
 	TouchableOpacity,
 } from "react-native";
 
-const CreateScreen = () => {
+const CreateScreen = ({ navigation }) => {
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 
 	const { addBlogPost } = useContext(BlogContext);
+
+	const handleSubmit = () => {
+		addBlogPost({ title, content });
+		Toast.show("Blog post added!");
+		navigation.navigate("IndexScreen");
+	};
 
 	return (
 		<View style={styles.container}>
@@ -34,10 +41,7 @@ const CreateScreen = () => {
 				onChangeText={(text) => setContent(text)}
 				textAlignVertical="top"
 			/>
-			<TouchableOpacity
-				style={styles.button}
-				onPress={() => addBlogPost({ title, content })}
-			>
+			<TouchableOpacity style={styles.button} onPress={handleSubmit}>
 				<Text>Create</Text>
 			</TouchableOpacity>
 		</View>
