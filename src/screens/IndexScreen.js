@@ -11,29 +11,33 @@ import { Feather } from "@expo/vector-icons";
 import { Context as BlogContext } from "../contexts/BlogContext";
 
 const IndexScreen = ({ navigation: { navigate } }) => {
-	const { state, addBlogPost, deleteBlogPost } = useContext(BlogContext);
+	const { state, deleteBlogPost } = useContext(BlogContext);
 
 	return (
 		<View>
 			<Text style={styles.caption}>Posts</Text>
-			<FlatList
-				data={state}
-				keyExtractor={(post) => post.id.toString()}
-				renderItem={({ item }) => {
-					return (
-						<TouchableOpacity
-							onPress={() => navigate("ShowScreen", { id: item.id })}
-						>
-							<View style={styles.row}>
-								<Text style={styles.title}>{item.title}</Text>
-								<TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
-									<Feather name="trash" style={styles.icon} />
-								</TouchableOpacity>
-							</View>
-						</TouchableOpacity>
-					);
-				}}
-			/>
+			{state.length > 0 ? (
+				<FlatList
+					data={state}
+					keyExtractor={(post) => post.id.toString()}
+					renderItem={({ item }) => {
+						return (
+							<TouchableOpacity
+								onPress={() => navigate("ShowScreen", { id: item.id })}
+							>
+								<View style={styles.row}>
+									<Text style={styles.title}>{item.title}</Text>
+									<TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
+										<Feather name="trash" style={styles.icon} />
+									</TouchableOpacity>
+								</View>
+							</TouchableOpacity>
+						);
+					}}
+				/>
+			) : (
+				<Text style={styles.notFound}>No posts found...</Text>
+			)}
 		</View>
 	);
 };
@@ -75,6 +79,10 @@ const styles = StyleSheet.create({
 	},
 	plus: {
 		marginRight: 10,
+	},
+	notFound: {
+		fontSize: 18,
+		textAlign: "center",
 	},
 });
 
