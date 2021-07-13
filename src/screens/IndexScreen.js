@@ -4,13 +4,12 @@ import {
 	Text,
 	StyleSheet,
 	FlatList,
-	Button,
 	TouchableOpacity,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Context as BlogContext } from "../contexts/BlogContext";
 
-const IndexScreen = ({ navigation: { navigate } }) => {
+const IndexScreen = ({ navigation }) => {
 	const { state, deleteBlogPost } = useContext(BlogContext);
 
 	return (
@@ -23,7 +22,9 @@ const IndexScreen = ({ navigation: { navigate } }) => {
 					renderItem={({ item }) => {
 						return (
 							<TouchableOpacity
-								onPress={() => navigate("ShowScreen", { id: item.id })}
+								onPress={() =>
+									navigation.navigate("ShowScreen", { id: item.id })
+								}
 							>
 								<View style={styles.row}>
 									<Text style={styles.title}>{item.title}</Text>
