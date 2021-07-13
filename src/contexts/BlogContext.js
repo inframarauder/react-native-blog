@@ -7,17 +7,18 @@ const blogReducer = (state, action) => {
 		case "add_blogpost":
 			return [
 				...state,
-				{ id: state.length + 1, title: `Blog Post #${state.length + 1}` },
+				{ id: Math.floor(Math.random() * 10000), ...payload.post },
 			];
 		case "delete_blogpost":
 			return state.filter((item) => item.id !== payload.id);
+
 		default:
 			return state;
 	}
 };
 
 const addBlogPost = (dispatch) => {
-	return () => dispatch({ type: "add_blogpost" });
+	return (post) => dispatch({ type: "add_blogpost", payload: { post } });
 };
 
 const deleteBlogPost = (dispatch) => {
